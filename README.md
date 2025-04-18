@@ -5,3 +5,6 @@ Playground for STM32 U083
 
 - V00
   - Set up project for STM32U083HCY
+- V01
+  - Set up GPIO Output and Input
+  - Monitor the Input pin status to control the Output pin status
