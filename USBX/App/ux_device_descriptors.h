@@ -247,7 +247,7 @@ uint16_t USBD_HID_ReportDesc_length(uint8_t hid_type);
 /* USER CODE END Private_defines */
 
 #define USBD_VID                                      0x1234
-#define USBD_PID                                      5678
+#define USBD_PID                                      0x5678
 #define USBD_LANGID_STRING                            1033
 #define USBD_MANUFACTURER_STRING                      "STMicroelectronics"
 #define USBD_PRODUCT_STRING                           "Wedy USB Device"

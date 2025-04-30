@@ -17,3 +17,7 @@ Playground for STM32 U083
 	- USB CLOCK MUX set to use HSI48
   - Monitor the Input pin status to enable the USB device process
 	- When PA15 or PA12 has input signal the LED8 and LED5 would be turn on and start the USBX device process
+- V03
+  - Modified the HID descriptor to complient-vendor defined device
+  - Modified the PID/VID
+  - Add the print log via UART function (115200)

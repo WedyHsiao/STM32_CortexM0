@@ -22,6 +22,8 @@
 "./Drivers/STM32U0xx_HAL_Driver/stm32u0xx_hal_pwr_ex.o"
 "./Drivers/STM32U0xx_HAL_Driver/stm32u0xx_hal_rcc.o"
 "./Drivers/STM32U0xx_HAL_Driver/stm32u0xx_hal_rcc_ex.o"
+"./Drivers/STM32U0xx_HAL_Driver/stm32u0xx_hal_uart.o"
+"./Drivers/STM32U0xx_HAL_Driver/stm32u0xx_hal_uart_ex.o"
 "./Drivers/STM32U0xx_HAL_Driver/stm32u0xx_ll_usb.o"
 "./Middlewares/USBX/Core System/ux_system_error_handler.o"
 "./Middlewares/USBX/Core System/ux_system_initialize.o"

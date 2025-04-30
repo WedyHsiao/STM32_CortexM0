@@ -104,28 +104,23 @@ __ALIGN_BEGIN uint8_t USBD_HID_KEYBOARD_ReportDesc[]
 __ALIGN_END =
 {
   /* USER CODE BEGIN USBD_HID_KEYBOARD_ReportDesc             */
-  0x05, 0x01,        /* Usage Page (Generic Desktop Ctrls)    */
-  0x09, 0x06,        /* Usage (Keyboard)                      */
-  0xa1, 0x01,        /* Collection (Application)              */
-  0x05, 0x07,        /*   Usage (Keyboard)                    */
-  0x19, 0xe0,        /*     Usage Minimum (LeftControl)       */
-  0x29, 0xe7,        /*     Usage Maximum (0x03)              */
-  0x15, 0x00,        /*     Logical Minimum (0)               */
-  0x25, 0x01,        /*     Logical Maximum (1)               */
-  0x75, 0x01,        /*     Report Size  (1)                  */
-  0x95, 0x08,        /*     Report Count (8)                  */
-  0x81, 0x02,        /*     Input (Data,Var,Abs)              */
-  0x95, 0x01,        /*     Report Count (1)                  */
-  0x75, 0x08,        /*     Report Size (8)                   */
-  0x81, 0x03,        /*     Input (Const,Array,Abs)           */
-  0x95, 0x06,        /*     Report Count (6)                  */
-  0x75, 0x08,        /*     Report Size (8)                   */
-  0x15, 0x00,        /*     Logical Minimum (0)               */
-  0x25, 0x65,        /*     Logical Maximum (101)             */
-  0x05, 0x07,        /*     Usage Page (Keyboard)             */
-  0x19, 0x00,        /*     Logical Minimum (Reserved)        */
-  0x29, 0x65,        /*     Logical Maximum (Keyboard)        */
-  0x81, 0x00,        /*     Input (Data,Var,Abs)              */
+  //Wedy Change for customized report
+  0x06, 0x00, 0xFF,                   /* USAGE PAGE (WACOM Device)*/\
+  0x09, 0xFF,                         /* USAGE (ASIC USAGE) */\
+  0xa1, 0x01,                         /* COLLECTION (Application) */\
+  0x15, 0x00,                         /*   LOGICAL_MINIMUM (0) */\
+  0x25, 0xff,                         /*   LOGICAL_MAXIMUM (255) */\
+  0x75, 0x08,                         /*   REPORT_SIZE (8) */\
+  0x85, 0x01,                         /*   REPORT_ID (1). This defines input to the host side */\
+  0x95, 0x10,                         /*   REPORT_COUNT (16) */\
+  0x09, 0x01,                         /*   USAGE (ASIC USAGE) */\
+  0x75, 0x08,                    /*     REPORT_SIZE (8)*/\
+  0x81, 0x02,                         /*   INPUT (Data,Var,Abs) (note: output from host) */\
+  0x85, 0x02,                         /*   REPORT_ID (2). This defines output from the host side */\
+  0x95, 0xC9,                         /*   REPORT_COUNT (201) */\
+  0x09, 0x01,                         /*   USAGE (ASIC USAGE) */\
+  0x75, 0x08,                    /*     REPORT_SIZE (8)*/\
+  0x91, 0x02,                         /*   OUTPUT (Data,Var,Abs) (note: input to host) */\
   /* USER CODE END USBD_HID_KEYBOARD_ReportDesc               */
   0xc0               /* End Collection                        */
 };

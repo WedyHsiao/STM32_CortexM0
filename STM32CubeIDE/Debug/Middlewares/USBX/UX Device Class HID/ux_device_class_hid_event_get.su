@@ -1,0 +1,4 @@
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Middlewares/ST/usbx/common/usbx_device_classes/src/ux_device_class_hid_event_get.c:71:7:_ux_device_class_hid_event_check	24	static
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Middlewares/ST/usbx/common/usbx_device_classes/src/ux_device_class_hid_event_get.c:131:7:_ux_device_class_hid_event_free	24	static
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Middlewares/ST/usbx/common/usbx_device_classes/src/ux_device_class_hid_event_get.c:188:7:_ux_device_class_hid_event_get	24	static
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Middlewares/ST/usbx/common/usbx_device_classes/src/ux_device_class_hid_event_get.c:261:7:_uxe_device_class_hid_event_get	16	static
