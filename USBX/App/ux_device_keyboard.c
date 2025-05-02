@@ -100,8 +100,29 @@ UINT USBD_HID_Keyboard_SetReport(UX_SLAVE_CLASS_HID *hid_instance,
   UINT status = UX_SUCCESS;
 
   /* USER CODE BEGIN USBD_HID_Keyboard_SetReport */
-  UX_PARAMETER_NOT_USED(hid_instance);
-  UX_PARAMETER_NOT_USED(hid_event);
+  //UX_PARAMETER_NOT_USED(hid_instance);
+  //UX_PARAMETER_NOT_USED(hid_event);
+
+  //Receive Output report from PC
+  if (hid_event == UX_NULL || hid_event->ux_device_class_hid_event_length < 1)
+          return UX_ERROR;
+
+      // First byte is Report ID
+      uint8_t report_id = hid_event->ux_device_class_hid_event_buffer[0];
+      uint8_t *data = &hid_event->ux_device_class_hid_event_buffer[1];
+      UINT data_len = hid_event->ux_device_class_hid_event_length - 1;
+
+      if (report_id == 0x02) // OUTPUT report
+      {
+          // Do something with the data (201 bytes max)
+          printf("Received OUTPUT report ID 0x02, length %u\n", data_len);
+
+          for (UINT i = 0; i < data_len; i++) {
+              printf("Byte[%u] = 0x%02X\n", i, data[i]);
+          }
+
+          // You can parse or store this data as needed
+      }
   /* USER CODE END USBD_HID_Keyboard_SetReport */
 
   return status;
@@ -129,5 +150,15 @@ UINT USBD_HID_Keyboard_GetReport(UX_SLAVE_CLASS_HID *hid_instance,
 }
 
 /* USER CODE BEGIN 1 */
+VOID USBX_DEVICE_HID_KEYBOARD_Task(VOID)
+{
+	//uint8_t report[8] = {0}; // 8-byte HID keyboard report
 
+	//USBD_HID_Keyboard_GetReport(&hUsbDeviceFS, report, sizeof(report));
+
+	// Release the key
+	//memset(report, 0, sizeof(report));
+	printf("Data running /n");
+
+}
 /* USER CODE END 1 */

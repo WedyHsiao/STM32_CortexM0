@@ -5,4 +5,4 @@ C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:184:13:M
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:232:6:MX_USB_PCD_Init	2
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:265:13:MX_GPIO_Init	1
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:313:13:CheckPA15State	3
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:341:6:Error_Handler	1
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:342:6:Error_Handler	1

@@ -105,7 +105,7 @@ __ALIGN_END =
 {
   /* USER CODE BEGIN USBD_HID_KEYBOARD_ReportDesc             */
   //Wedy Change for customized report
-  0x06, 0x00, 0xFF,                   /* USAGE PAGE (WACOM Device)*/\
+  0x06, 0x00, 0xFF,                   /* USAGE PAGE (WEDY Device)*/\
   0x09, 0xFF,                         /* USAGE (ASIC USAGE) */\
   0xa1, 0x01,                         /* COLLECTION (Application) */\
   0x15, 0x00,                         /*   LOGICAL_MINIMUM (0) */\

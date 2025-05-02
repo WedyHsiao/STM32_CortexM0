@@ -21,3 +21,8 @@ Playground for STM32 U083
   - Modified the HID descriptor to complient-vendor defined device
   - Modified the PID/VID
   - Add the print log via UART function (115200)
+- V04
+  - Add the program to receive the out put data sent from PC
+  - Modified UX_DEVICE_CLASS_HID_EVENT_BUFFER_LENGTH from 32 to 256
+  - Modified UX_SLAVE_REQUEST_DATA_MAX_LENGTH from 64 to 256
+  - Could receive the output report but just could print data_len [31] each time, wait for investigate

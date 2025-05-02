@@ -1,4 +1,5 @@
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:65:6:USBD_HID_Keyboard_Activate	16	static
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:80:6:USBD_HID_Keyboard_Deactivate	16	static
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:97:6:USBD_HID_Keyboard_SetReport	24	static
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:118:6:USBD_HID_Keyboard_GetReport	24	static
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:97:6:USBD_HID_Keyboard_SetReport	40	static
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:139:6:USBD_HID_Keyboard_GetReport	24	static
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/USBX/App/ux_device_keyboard.c:153:6:USBX_DEVICE_HID_KEYBOARD_Task	8	static

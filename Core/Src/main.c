@@ -322,6 +322,7 @@ static void CheckPA15State(void)
     // Add your code here for when PB8 is high
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5,GPIO_PIN_SET);
+	//Set up the device descriptor
 	USBX_Device_Process(NULL);
   }
   else

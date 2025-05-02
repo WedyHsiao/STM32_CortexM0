@@ -218,6 +218,8 @@ ULONG _ux_utility_time_get(VOID)
 VOID USBX_Device_Process (VOID *arg)
 {
 	ux_device_stack_tasks_run();
+	// Add for task running
+	//USBX_DEVICE_HID_KEYBOARD_Task();
 }
 
 //Initialization of USB device
