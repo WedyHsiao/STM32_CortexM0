@@ -110,11 +110,9 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-	 // HAL_GPIO_TogglePin(GPIOA, GPIO_PIN_5);
-	  //USBX_Device_Process(NULL);
-	  CheckPA15State();
-	  //HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8,GPIO_PIN_SET);
-	  //HAL_Delay(500);
+	 //Set up the device descriptor
+	 USBX_Device_Process(NULL);
+	 CheckPA15State();
   }
   /* USER CODE END 3 */
 }
@@ -322,8 +320,6 @@ static void CheckPA15State(void)
     // Add your code here for when PB8 is high
 	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_8,GPIO_PIN_SET);
 	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5,GPIO_PIN_SET);
-	//Set up the device descriptor
-	USBX_Device_Process(NULL);
   }
   else
   {

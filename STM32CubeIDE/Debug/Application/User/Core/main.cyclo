@@ -1,8 +1,8 @@
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:64:5:_write	1
 C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:75:5:main	1
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:126:6:SystemClock_Config	3
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:184:13:MX_USART2_UART_Init	5
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:232:6:MX_USB_PCD_Init	2
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:265:13:MX_GPIO_Init	1
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:313:13:CheckPA15State	3
-C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:342:6:Error_Handler	1
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:124:6:SystemClock_Config	3
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:182:13:MX_USART2_UART_Init	5
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:230:6:MX_USB_PCD_Init	2
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:263:13:MX_GPIO_Init	1
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:311:13:CheckPA15State	3
+C:/SpaceX/STM32Cube_FW_U0_V1.2.0/Projects/STM32U083HCY6/Core/Src/main.c:338:6:Error_Handler	1

@@ -26,3 +26,6 @@ Playground for STM32 U083
   - Modified UX_DEVICE_CLASS_HID_EVENT_BUFFER_LENGTH from 32 to 256
   - Modified UX_SLAVE_REQUEST_DATA_MAX_LENGTH from 64 to 256
   - Could receive the output report but just could print data_len [31] each time, wait for investigate
+- V05
+  - Add USBX_DEVICE_HID_CUSTOMER_Task()
+  - Add USBD_HID_Keyboard_SendReport

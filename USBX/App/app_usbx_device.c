@@ -159,7 +159,8 @@ UINT MX_USBX_Device_Init(VOID)
   }
 
   /* USER CODE BEGIN MX_USBX_Device_Init1 */
-  USBX_APP_Device_Init(); //Initialization of USB device
+  //Initialization of USB device
+  USBX_APP_Device_Init();
   /* USER CODE END MX_USBX_Device_Init1 */
 
   return ret;
@@ -218,8 +219,8 @@ ULONG _ux_utility_time_get(VOID)
 VOID USBX_Device_Process (VOID *arg)
 {
 	ux_device_stack_tasks_run();
-	// Add for task running
-	//USBX_DEVICE_HID_KEYBOARD_Task();
+	//Add for task running
+	USBX_DEVICE_HID_CUSTOMER_Task();
 }
 
 //Initialization of USB device
