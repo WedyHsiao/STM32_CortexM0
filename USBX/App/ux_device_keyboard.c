@@ -23,7 +23,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32u0xx.h"
+#include "stm32u0xx_hal_flash.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -34,6 +35,20 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 #define MAX_HID_OUTPUT_REPORT_SIZE 201
+
+#define ADDR_FLASH_PAGE_14    ((uint32_t)0x08007000) /* Base @ of Page 14, 2 Kbytes */
+#define ADDR_FLASH_PAGE_127    ((uint32_t)0x0803F800) /* Base @ of Page 127, 2 Kbytes */
+
+#define ADDR_FLASH_PAGE_USE    ((uint32_t)0x0800E000) /* Base @ of Page 28, 2 Kbytes */
+#define ADDR_FLASH_PAGE_USE_END ((uint32_t)0x08031000) /* Base @ of Page 33, 2 Kbytes */
+
+#define FLASH_USER_START_ADDR   ADDR_FLASH_PAGE_USE   /* Start @ ADDR_FLASH_PAGE_14 of user Flash area */
+#define FLASH_USER_END_ADDR     (ADDR_FLASH_PAGE_USE_END + FLASH_PAGE_SIZE - 1)   /* End @  ADDR_FLASH_PAGE_127 of user Flash area */
+
+#define DATA_32                 ((uint32_t)0x12345678)
+#define DATA_64                 ((uint64_t)0x1234567812345678)
+
+#define FLASH_WRITE_LEN   16
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -42,16 +57,26 @@
 static uint8_t g_output_report_buffer[MAX_HID_OUTPUT_REPORT_SIZE];
 static UINT g_output_report_length = 0;
 static uint8_t g_output_report_ready = 0;
+static uint8_t Header[16];
+static uint8_t Data [25];
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN PV */
 static UX_SLAVE_CLASS_HID *g_hid_instance = UX_NULL;
+
+uint32_t FirstPage = 0, NbOfPages = 0;
+uint32_t Address = 0, PageError = 0;
+__IO uint32_t MemoryProgramStatus = 0;
+__IO uint32_t data32 = 0;
+
+/*Variable used for Erase procedure*/
+static FLASH_EraseInitTypeDef EraseInitStruct;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN PFP */
-
+static uint32_t GetPage(uint32_t Address);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -107,7 +132,7 @@ UINT USBD_HID_Keyboard_SetReport(UX_SLAVE_CLASS_HID *hid_instance,
   UX_PARAMETER_NOT_USED(hid_event);
 
   //Receive Output report from PC
-  if (hid_event == UX_NULL || hid_event->ux_device_class_hid_event_length < 2)
+  if (hid_event == UX_NULL || hid_event->ux_device_class_hid_event_length < 1)
           return UX_ERROR;
 
       uint8_t report_id = hid_event->ux_device_class_hid_event_buffer[0];
@@ -165,10 +190,12 @@ UINT USBD_HID_Keyboard_SendReport(UX_SLAVE_CLASS_HID *hid_instance, uint8_t *rep
     // Copy the report data to the event buffer
     memcpy(hid_event.ux_device_class_hid_event_buffer, report, length);
 
+    printf("Set INPUT report (length = %u):", sizeof(report));
     for (UINT i = 0; i < length; i++)
     {
-      printf("Byte[%u] = 0x%02X\n", i, report[i]);
+      printf("Byte[%u] = 0x%02X,", i, report[i]);
     }
+    printf("\n");
 
     // Send the report to the host
     status = _ux_device_class_hid_event_set(hid_instance, &hid_event);
@@ -176,38 +203,155 @@ UINT USBD_HID_Keyboard_SendReport(UX_SLAVE_CLASS_HID *hid_instance, uint8_t *rep
     return status;
 }
 
+/**
+  * @brief  Gets the page of a given address
+  * @param  Addr: Address of the FLASH Memory
+  * @retval The page of a given address
+  */
+static uint32_t GetPage(uint32_t Addr)
+{
+  return (Addr - FLASH_BASE) / FLASH_PAGE_SIZE;;
+}
+
+void Erase_Flash_Page(void)
+{
+	/* Clear OPTVERR bit set on virgin samples */
+	  __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_OPTVERR);
+
+	  /* Erase the user Flash area
+	    (area defined by FLASH_USER_START_ADDR and FLASH_USER_END_ADDR) ***********/
+
+	  /* Get the 1st page to erase */
+	  FirstPage = GetPage(FLASH_USER_START_ADDR);
+	  printf("First Page %d \n",FirstPage);
+
+	  /* Get the number of pages to erase from 1st page */
+	  NbOfPages = GetPage(FLASH_USER_END_ADDR) - FirstPage + 1;
+	  printf("NbOfPages: %d \n",NbOfPages);
+
+	  /* Fill EraseInit structure*/
+	  EraseInitStruct.TypeErase   = FLASH_TYPEERASE_PAGES;
+	  EraseInitStruct.Page        = FirstPage;
+	  EraseInitStruct.NbPages     = NbOfPages;
+
+	  /* Note: If an erase operation in Flash memory also concerns data in the data or instruction cache,
+	     you have to make sure that these data are rewritten before they are accessed during code
+	     execution. If this cannot be done safely, it is recommended to flush the caches by setting the
+	     DCRST and ICRST bits in the FLASH_CR register. */
+	  if (HAL_FLASHEx_Erase(&EraseInitStruct, &PageError) != HAL_OK)
+	  {
+	    /*
+	      Error occurred while page erase.
+	      User can add here some code to deal with this error.
+	      PageError will contain the faulty page and then to know the code error on this page,
+	      user can call function 'HAL_FLASH_GetError()'
+	    */
+	    /* Infinite loop */
+		printf("Erase Flash data failed");
+	    while (1)
+	    {
+	      Error_Handler();
+	    }
+	  }
+}
+
+HAL_StatusTypeDef Flash_Write64(uint32_t startAddress, const uint8_t *data, uint32_t length)
+{
+    if (startAddress % 8 != 0) {
+        return HAL_ERROR;  // Must be 64-bit aligned
+    }
+
+    if ((uint32_t)data % 8 != 0) {
+            // Optional: ensure source buffer is 8-byte aligned if using casting
+            return HAL_ERROR;
+    }
+
+    HAL_StatusTypeDef status;
+    uint32_t address = startAddress;
+
+    // Number of 64-bit words
+        uint32_t numDoubleWords = (length + 7) / 8;
+        const uint64_t *data64 = (const uint64_t *)data;
+
+        for (uint32_t i = 0; i < numDoubleWords; i++) {
+            status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_DOUBLEWORD, address, data64[i]);
+            if (status != HAL_OK) {
+                printf("Write Flash data failed\n");
+                HAL_FLASH_Lock();
+                return status;
+            }
+            address += 8;
+        }
+        HAL_FLASH_Lock();
+   return HAL_OK;
+}
+
 VOID USBX_DEVICE_HID_CUSTOMER_Task(VOID)
 {
-    uint8_t report[10] = {0};
-    report[0]=0x02;
+    uint8_t report[10] = {0}; // Use for input report
+    report[0]=0x02; // Input Report ID = 0x02
 
     if (g_output_report_ready)
     {
-        printf("Processing OUTPUT report (length = %u)\n", g_output_report_length);
+        printf("Processing OUTPUT report (length = %u): ", g_output_report_length);
         for (UINT i = 0; i < g_output_report_length; i++)
         {
-            //printf("Byte[%u] = 0x%02X\n", i, g_output_report_buffer[i]);
+        	printf("0x%02X, ", g_output_report_buffer[i]);
         }
+        printf("\n");
 
+        if (g_output_report_buffer[0]==0xC1)
+        {
+           report[1] = 0xD1;
+           printf("[Get FW Version]: ");
+           if (g_hid_instance != UX_NULL)
+           {
+              USBD_HID_Keyboard_SendReport(g_hid_instance, report, sizeof(report));
+           }
+        }
         if (g_output_report_buffer[0]==0xC4)
         {
             report[1] = 0xD4;
-            printf("Reset to Default \n");
+            printf("[Reset to Default]: ");
             if (g_hid_instance != UX_NULL)
             {
-            	printf("Set INPUT report (length = %u) \n", sizeof(report));
                 USBD_HID_Keyboard_SendReport(g_hid_instance, report, sizeof(report));
             }
         }
-        if (g_output_report_buffer[0]==0xC1)
+        if (g_output_report_buffer[0]==0xE0)
         {
-            report[1] = 0xD1;
-            printf("Get FW Version \n");
-            if (g_hid_instance != UX_NULL)
-            {
-               printf("Set INPUT report (length = %u) \n", sizeof(report));
-               USBD_HID_Keyboard_SendReport(g_hid_instance, report, sizeof(report));
+            printf("[Erase Data]\n");
+            memset(Data,0xFF,25);
+            /* Unlock the Flash to enable the flash control register access *************/
+            HAL_FLASH_Unlock();
+            Erase_Flash_Page();
+        }
+        if (g_output_report_buffer[0]==0xE1)
+        {
+        	printf("[Transfer]\n");
+        }
+        if (g_output_report_buffer[0]==0xE2)
+        {
+            printf("[Finished]\n");
+            HAL_FLASH_Lock();
+        }
+        if (g_output_report_buffer[0]==0x10)
+        {
+            printf(" Header \n");
+            memcpy(Header,&g_output_report_buffer[0],16);
+            int header_len = sizeof(Header);
+            if(header_len < 16){
+                printf("Header Data not match expected");
             }
+            HAL_StatusTypeDef status = Flash_Write64(ADDR_FLASH_PAGE_USE, g_output_report_buffer, FLASH_WRITE_LEN);
+            if (status != HAL_OK) {
+                printf("Flash write key failed\n");
+            }
+        }
+        if (g_output_report_buffer[0]==0xFF)
+        {
+            printf("Data \n");
+            memcpy(Data,&g_output_report_buffer[1],25);
         }
 
 

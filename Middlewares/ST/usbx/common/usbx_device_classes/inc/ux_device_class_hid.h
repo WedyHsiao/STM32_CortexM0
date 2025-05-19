@@ -183,7 +183,7 @@ extern   "C" {
 /* Define HID event info structure.  */
 
 #ifndef UX_DEVICE_CLASS_HID_EVENT_BUFFER_LENGTH
-#define UX_DEVICE_CLASS_HID_EVENT_BUFFER_LENGTH                     256 // Extend the buffer length from 32 to 256
+#define UX_DEVICE_CLASS_HID_EVENT_BUFFER_LENGTH                     32
 #endif
 
 /* Ensure the event buffer can fit inside the control endpoint's data buffer.  */

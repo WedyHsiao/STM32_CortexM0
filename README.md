@@ -29,3 +29,9 @@ Playground for STM32 U083
 - V05
   - Add USBX_DEVICE_HID_CUSTOMER_Task()
   - Add USBD_HID_Keyboard_SendReport
+- V06
+  - Set up the flash erase and write data
+    - https://youtu.be/BKgh896Bj8Q?si=VTTekKFrIjBoG6fc
+  - Modified the Output report length in hid descriptor
+  - USB FS packets are max 64 bytes in length. I assume the 32-byte packet size is some subset of those 64 bytes, probably HID-specific.
+    - https://community.st.com/t5/stm32-mcus-embedded-software/the-maxium-length-of-buffer-for-usb-hid-setreport/m-p/801757#M63342

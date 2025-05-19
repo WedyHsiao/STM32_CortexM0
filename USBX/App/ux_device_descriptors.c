@@ -117,7 +117,7 @@ __ALIGN_END =
   0x75, 0x08,                    /*     REPORT_SIZE (8)*/\
   0x81, 0x02,                         /*   INPUT (Data,Var,Abs) (note: output from host) */\
   0x85, 0x02,                         /*   REPORT_ID (2). This defines output from the host side */\
-  0x95, 0xC9,                         /*   REPORT_COUNT (201) */\
+  0x95, 0x1a,                         /*   REPORT_COUNT (201_C9) */\
   0x09, 0x01,                         /*   USAGE (ASIC USAGE) */\
   0x75, 0x08,                    /*     REPORT_SIZE (8)*/\
   0x91, 0x02,                         /*   OUTPUT (Data,Var,Abs) (note: input to host) */\
