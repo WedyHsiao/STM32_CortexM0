@@ -35,3 +35,9 @@ Playground for STM32 U083
   - Modified the Output report length in hid descriptor
   - USB FS packets are max 64 bytes in length. I assume the 32-byte packet size is some subset of those 64 bytes, probably HID-specific.
     - https://community.st.com/t5/stm32-mcus-embedded-software/the-maxium-length-of-buffer-for-usb-hid-setreport/m-p/801757#M63342
+- V07
+  - Modified the length of output report size
+    - The STM32U083 typically programs 64 bits (8 bytes) at a time, using “double-word” programming.
+    - You can’t write 100 bytes directly in a single command — you must program it in 8-byte “double-word” chunks.
+  - Revised the usage flash address based on program size and usage data length
+  - Add the read flash data function  
